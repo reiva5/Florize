@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/florize"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.findachan.florize.activity.DesignCardActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameBuy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wishes Card"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:textAppearance="@android:style/TextAppearance.Large"/>
+
+            <EditText
+                android:id="@+id/textWishes"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/nameBuy"
+                android:hint="Tulis pesanmu di sini..."
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:inputType="text|textMultiLine"
+                android:gravity="top"/>
+
+            <EditText
+                android:id="@+id/textTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tulis nama penerima di sini"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="top"
+                android:layout_below="@id/textWishes"/>
+
+            <EditText
+                android:id="@+id/textAlamat"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Tulis alamat penerima di sini"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@id/textTo"
+                android:inputType="text|textMultiLine"
+                android:gravity="top"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LANJUT KE PEMBAYARAN"
+                android:id="@+id/button_wishes"
+                android:layout_below="@id/textAlamat"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>
+

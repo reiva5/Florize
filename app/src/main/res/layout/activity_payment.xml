@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+        <TextView android:id="@+id/itemNameCart"
+            android:textSize="32sp"
+            android:layout_margin="5dip"
+            android:layout_marginBottom="20dip"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView android:id="@+id/itemPriceCart"
+            android:textSize="32sp"
+            android:layout_margin="5dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/itemNameCart"/>
+        <ImageView android:id="@+id/itemImageCart"
+            android:layout_margin="5dip"
+            android:layout_height="300dip"
+            android:layout_width="300dip"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:layout_below="@id/itemPriceCart"/>
+        <TextView android:id="@+id/rekeningTransfer"
+            android:layout_below="@id/itemImageCart"
+            android:text="Harap melakukan pembayaran ke rekening 7078104389 a/n Jehian Norman Saviero (Bank Mandiri Syariah) sesuai jumlah yang tertera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_below="@id/rekeningTransfer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAYA SUDAH BAYAR"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/buttonBayar"/>
+
+        <Button
+            android:layout_below="@id/buttonBayar"
+            android:id="@+id/buttonSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KIRIM INVOICE"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+    </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "136578086428",
+    "firebase_url": "https://florize-findachan.firebaseio.com",
+    "project_id": "florize-findachan",
+    "storage_bucket": "florize-findachan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136578086428:android:62c72c7615f6b66d",
+        "android_client_info": {
+          "package_name": "com.findachan.florize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136578086428-n5cmk8b2h01gdk8r1c6lf37rbac0slb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRePtcPv9PVcT1UtnlbA0dRTHg-45ofag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

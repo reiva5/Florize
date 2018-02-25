@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:theme = "@style/florize"
+    tools:context="com.findachan.florize.activity.LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/signup_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="25sp"
+                android:layout_marginBottom="20dp"
+                android:text="SIGN UP" />
+
+            <!--<EditText-->
+            <!--android:id="@+id/fullname_signup"-->
+            <!--style="@style/Widget.AppCompat.EditText"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textSize="12sp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Full name"-->
+            <!--android:background="@drawable/rounded_border_edittext_2"-->
+            <!--android:singleLine="true" />-->
+
+            <EditText
+                android:id="@+id/email_signup"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                android:ems="10"
+                android:hint="Email"
+                android:background="@drawable/rounded_border_edittext_2"
+                android:singleLine="true" />
+
+            <!--<EditText-->
+            <!--android:id="@+id/username_signup"-->
+            <!--style="@style/Widget.AppCompat.EditText"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textSize="12sp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Username"-->
+            <!--android:background="@drawable/rounded_border_edittext_2"-->
+            <!--android:singleLine="true" />-->
+
+            <EditText
+                android:id="@+id/password_signup"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="12sp"
+                android:ems="10"
+                android:hint="Password"
+                android:background="@drawable/rounded_border_edittext_2"
+                android:singleLine="true" />
+
+            <!--<EditText-->
+            <!--android:id="@+id/phone_signup"-->
+            <!--style="@style/Widget.AppCompat.EditText"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textSize="12sp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Phone number"-->
+            <!--android:background="@drawable/rounded_border_edittext_2"-->
+            <!--android:singleLine="true" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/address_signup"-->
+            <!--style="@style/Widget.AppCompat.EditText"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textSize="12sp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Address"-->
+            <!--android:gravity="top"-->
+            <!--android:paddingTop="8dp"-->
+            <!--android:background="@drawable/rounded_border_edittext_2"-->
+            <!--android:singleLine="true" />-->
+
+            <Button
+                android:id="@+id/sign_up_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#ffff"
+                android:text="REGISTER"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:gravity="right"
+                    android:text="Already have an account?" />
+                <TextView
+                    android:id="@+id/sign_in_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:textColor="@color/colorAccent"
+                    android:text=" Click here" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        />
+</LinearLayout>
