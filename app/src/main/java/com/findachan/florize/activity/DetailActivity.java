@@ -1,9 +1,16 @@
 package com.findachan.florize.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +35,9 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private Util util;
+
+    private SensorManager mSensorManager;
+    private Sensor sensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +80,50 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
     }
+
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(lightListener, sensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    public void onStop() {
+        super.onStop();
+        mSensorManager.unregisterListener(lightListener);
+    }
+
+    public SensorEventListener lightListener = new SensorEventListener() {
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            if(sensor.getType() == Sensor.TYPE_LIGHT){
+                Log.i("Sensor Changed", "Accuracy :" + accuracy);
+            }
+        }
+
+        public void onSensorChanged(SensorEvent event) {
+//            if( event.sensor.getType() == Sensor.TYPE_LIGHT){
+//                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
+//            }
+
+            if (event.values[0] <= 30) {
+                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
+                Log.i("warna", ">>> hijau");
+                findViewById(R.id.toolbar).setBackgroundColor(Color.BLACK);
+                findViewById(R.id.tab_layout).setBackgroundColor(Color.BLACK);
+                findViewById(R.id.activity_main).setBackgroundColor(Color.parseColor("#FFC1C0C0"));
+//                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#EFEFEF"));
+            } else if (event.values[0] > 30) {
+                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
+                Log.i("warna", ">>> tetap");
+                findViewById(R.id.toolbar).setBackgroundColor(Color.parseColor("#FF4081"));
+                findViewById(R.id.tab_layout).setBackgroundColor(Color.parseColor("#FF4081"));
+                findViewById(R.id.activity_main).setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
+        }
+    };
 
 //    public void launchDesignCard(View view) {
 //        Log.d(LOG_TAG, "Button clicked!");

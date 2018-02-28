@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+//    136578086428-6t8slte5op4jaucehlp0rfbt2ckdbv45.apps.googleusercontent.com
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -55,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String email = extras.getString("email");
+            String id = extras.getString("id");
+            String phone = extras.getString("phone");
+            String fullname = extras.getString("fullname");
+            String address = extras.getString("address");
+            //String logged_in = extras.getString("logged_in");
+            //The key argument here must match that used in the other activity
+        }
     }
 
     public void onResume() {
@@ -81,15 +93,13 @@ public class MainActivity extends AppCompatActivity {
 //            }
 
             if (event.values[0] <= 30) {
-                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
-                Log.i("warna", ">>> hijau");
+                //Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
                 findViewById(R.id.toolbar).setBackgroundColor(Color.BLACK);
                 findViewById(R.id.tab_layout).setBackgroundColor(Color.BLACK);
                 findViewById(R.id.activity_main).setBackgroundColor(Color.parseColor("#FFC1C0C0"));
 //                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#EFEFEF"));
             } else if (event.values[0] > 30) {
-                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
-                Log.i("warna", ">>> tetap");
+                //Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
                 findViewById(R.id.toolbar).setBackgroundColor(Color.parseColor("#FF4081"));
                 findViewById(R.id.tab_layout).setBackgroundColor(Color.parseColor("#FF4081"));
                 findViewById(R.id.activity_main).setBackgroundColor(Color.parseColor("#FFFFFF"));
