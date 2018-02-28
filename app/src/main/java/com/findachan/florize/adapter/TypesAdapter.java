@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.findachan.florize.R;
+import com.findachan.florize.activity.RecommendItemActivity;
 import com.findachan.florize.models.Type;
 import com.findachan.florize.activity.HandBouquetActivity;
 
@@ -65,7 +66,7 @@ public class TypesAdapter extends RecyclerView.Adapter<TypesAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemView.getContext().startActivity(new Intent(itemView.getContext(),HandBouquetActivity.class));
+                    itemView.getContext().startActivity(new Intent(itemView.getContext(),RecommendItemActivity.class));
                 }
             });
         }
