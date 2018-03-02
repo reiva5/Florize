@@ -57,7 +57,7 @@ public class PaymentActivity extends AppCompatActivity {
                 itemPrice.setText(util.toPrettyPrice(dataSnapshot.child("harga").getValue(Long.class)));
                 String imgURL  = dataSnapshot.child("url").getValue(String.class);
                 new DownloadImageTask(imageView).execute(imgURL);
-                final Button send = (Button) findViewById(R.id.buttonBayar);
+                final Button send = (Button) findViewById(R.id.buttonSend);
                 send.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {

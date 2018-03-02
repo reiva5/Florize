@@ -15,18 +15,21 @@
         <item>Hand Bouquet</item>
         <item>Bloom Box</item>
         <item>Vase Flower</item>
+        <item>Rekomendasi Bunga Berdasarkan Lokasi</item>
     </string-array>
 
     <string-array name="types_info">
         <item>Rangkaian bunga dalam bentuk buket</item>
         <item>Bunga yang dirangkai di dalam kotak</item>
         <item>Bunga yang dirangkai di dalam vas</item>
+        <item>Dapatkan Bunga yang kamu banget</item>
     </string-array>
 
     <array name="types_images">
         <item>@drawable/handbouquet</item>
         <item>@drawable/bloombox</item>
         <item>@drawable/vase</item>
+        <item>@drawable/four_seasons</item>
     </array>
 
 
