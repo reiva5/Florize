@@ -13,7 +13,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.findachan.florize.R;
+import com.findachan.florize.activity.EditProfileActivity;
+import com.findachan.florize.activity.MainActivity;
+import com.findachan.florize.activity.SignUpActivity;
+import com.findachan.florize.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -105,8 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        SharedPreferences userProfile = getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final SharedPreferences userProfile = getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
 
         // We need an editor object to make changes
         final SharedPreferences.Editor edit = userProfile.edit();
@@ -118,24 +123,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edit.putString("phone","-");
         edit.putString("address","-");
         edit.putBoolean("logged_in", false);
+        edit.commit();
 
         // Commit the changes
         if(currentUser!=null){
+            Log.w(TAG,currentUser.getEmail()+currentUser.getUid());
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            final DatabaseReference myRef = database.getReference("user").child(currentUser.getUid());
+            final DatabaseReference myRef = database.getReference("user");
+            final DatabaseReference IDRef = myRef.child(currentUser.getUid());
             // Read from the database
-            myRef.addValueEventListener(new ValueEventListener() {
+            IDRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
-                    edit.putString("email", value.get("email").toString());
-                    edit.putString("id",value.get("id").toString());
-                    edit.putString("fullname",value.get("fullname").toString());
-                    edit.putString("phone",value.get("phone").toString());
-                    edit.putString("address",value.get("address").toString());
-                    edit.putBoolean("logged_in", true);
+                    if(dataSnapshot.exists()){
+                        Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
+                        edit.putString("email", value.get("email").toString());
+                        edit.putString("id",value.get("id").toString());
+                        edit.putString("fullname",value.get("fullname").toString());
+                        edit.putString("phone",value.get("phone").toString());
+                        edit.putString("address",value.get("address").toString());
+                        edit.putBoolean("logged_in", true);
+                        edit.commit();
+                    }else{
+                        User userDB = new User("-",currentUser.getEmail(),"-","-",currentUser.getUid());
+                        myRef.child(currentUser.getUid()).setValue(userDB);
+                        edit.putString("email", currentUser.getEmail());
+                        edit.putString("id",currentUser.getUid());
+                        edit.putString("fullname","-");
+                        edit.putString("phone","-");
+                        edit.putString("address","-");
+                        edit.putBoolean("logged_in", true);
+                        edit.commit();
+                        startActivity(new Intent(LoginActivity.this, EditProfileActivity.class));
+                    }
+                    Log.w(TAG,userProfile.getString("email","")+" "+userProfile.getString("id",""));
                 }
 
                 @Override
@@ -146,9 +169,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
         }
 
-        edit.commit();
 
-        updateUI(currentUser);
+        //updateUI(currentUser);
     }
     @Override
     public void onClick(View v) {
@@ -219,6 +241,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     edit.putString("phone",value.get("phone").toString());
                                     edit.putString("address",value.get("address").toString());
                                     edit.putBoolean("logged_in", true);
+                                    edit.commit();
                                 }
 
                                 @Override
@@ -290,26 +313,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             SharedPreferences userProfile = getSharedPreferences("UserProfile", Context.MODE_PRIVATE);
 
                             // We need an editor object to make changes
                             final SharedPreferences.Editor edit = userProfile.edit();
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            final DatabaseReference myRef = database.getReference("user").child(user.getUid());
+                            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            final DatabaseReference myRef = database.getReference("user");
                             // Read from the database
-                            myRef.addValueEventListener(new ValueEventListener() {
+                            final DatabaseReference userRef = myRef.child(user.getUid());
+                            userRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     // This method is called once with the initial value and again
                                     // whenever data at this location is updated.
-                                    Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
-                                    edit.putString("email", value.get("email").toString());
-                                    edit.putString("id",value.get("id").toString());
-                                    edit.putString("fullname",value.get("fullname").toString());
-                                    edit.putString("phone",value.get("phone").toString());
-                                    edit.putString("address",value.get("address").toString());
-                                    edit.putBoolean("logged_in", true);
+                                    if(dataSnapshot.exists()){
+                                        Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
+                                        edit.putString("email", value.get("email").toString());
+                                        edit.putString("id",value.get("id").toString());
+                                        edit.putString("fullname",value.get("fullname").toString());
+                                        edit.putString("phone",value.get("phone").toString());
+                                        edit.putString("address",value.get("address").toString());
+                                        edit.putBoolean("logged_in", true);
+                                    }else{
+                                        User userDB = new User("-",user.getEmail(),"-","-",user.getUid());
+                                        myRef.child(user.getUid()).setValue(userDB);
+                                        edit.putString("email", user.getEmail());
+                                        edit.putString("id",user.getUid());
+                                        edit.putString("fullname","-");
+                                        edit.putString("phone","-");
+                                        edit.putString("address","-");
+                                        edit.putBoolean("logged_in", true);
+                                        edit.commit();
+                                        startActivity(new Intent(LoginActivity.this, EditProfileActivity.class));
+                                    }
                                 }
 
                                 @Override
