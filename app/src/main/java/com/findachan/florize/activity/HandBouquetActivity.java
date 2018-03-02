@@ -1,7 +1,9 @@
 package com.findachan.florize.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -9,9 +11,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,8 +28,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.findachan.florize.GpsTracker;
 import com.findachan.florize.R;
 import com.findachan.florize.adapter.BouquetAdapter;
 import com.findachan.florize.models.Bouquet;
@@ -33,8 +41,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HandBouquetActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -47,6 +57,8 @@ public class HandBouquetActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor sensor;
     TextView textLight;
+    private String category;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +68,10 @@ public class HandBouquetActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        intent = getIntent();
+        category = intent.getStringExtra("id");
+        System.out.print("> Anjing ga jelas: " + category);
 
         initCollapsingToolbar();
 
@@ -75,19 +91,60 @@ public class HandBouquetActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot bq : dataSnapshot.getChildren()){
-                    albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
-                                                bq.child("kategori").getValue(Integer.class),
-                                                bq.child("harga").getValue(Integer.class),
-                                                bq.child("deskripsi").getValue(String.class),
-                                                bq.child("url").getValue(String.class),
-                                                bq.getKey())
-                                            );
-
+                if (!category.equalsIgnoreCase("4")) {
+                    for (DataSnapshot bq : dataSnapshot.getChildren()) {
+                        if (category.equalsIgnoreCase(bq.child("kategori")
+                                .getValue(Long.class).toString())) {
+                            albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
+                                    bq.child("kategori").getValue(Integer.class),
+                                    bq.child("harga").getValue(Integer.class),
+                                    bq.child("deskripsi").getValue(String.class),
+                                    bq.child("url").getValue(String.class),
+                                    bq.getKey())
+                            );
+                        }
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "asoe", Toast.LENGTH_SHORT);
+                    ActivityCompat.requestPermissions(HandBouquetActivity.this,
+                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                            123);
+                    GpsTracker gt = new GpsTracker(getApplicationContext());
+                    Location l = gt.getLocation();
+                    if (l == null) {
+                        Toast.makeText(getApplicationContext(),"GPS unable to get Value",Toast.LENGTH_SHORT).show();
+                    } else {
+                        double lat = l.getLatitude();
+                        double lon = l.getLongitude();
+                        Geocoder geocoder;
+                        List<Address> addresses;
+                        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        try {
+                            addresses = geocoder.getFromLocation(lat, lon, 1);
+                            String location = "Bandung";
+                            Toast.makeText(getApplicationContext(),addresses.get(0).getSubAdminArea(),Toast.LENGTH_SHORT).show();
+                            for (DataSnapshot bq : dataSnapshot.getChildren()){
+                                if (addresses.get(0).getSubAdminArea().toLowerCase().contains(bq.child("lokasi").getValue(String.class).toLowerCase())) {
+                                    albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
+                                            bq.child("kategori").getValue(Integer.class),
+                                            bq.child("harga").getValue(Integer.class),
+                                            bq.child("deskripsi").getValue(String.class),
+                                            bq.child("url").getValue(String.class),
+                                            bq.getKey())
+                                    );
+                                }
+                            }
+                        } catch (IOException e) {
+                            Toast.makeText(getApplicationContext(),"GPS unable to get city",Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 adapter.notifyDataSetChanged();
                 try {
-                    Glide.with(getApplicationContext()).load(R.drawable.handbouquet).into((ImageView) findViewById(R.id.backdrop));
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.handbouquet)
+                            .into((ImageView) findViewById(R.id.backdrop));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
