@@ -34,11 +34,10 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         util = new Util();
-        Intent myIntent = getIntent();
+        final Intent myIntent = getIntent();
         String id = myIntent.getStringExtra("id");
         database = FirebaseDatabase.getInstance();
         reference = database.getInstance().getReference("item").child(id);
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -66,12 +65,36 @@ public class DetailActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.button_buy);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                System.out.println("Bismillah " + getIntent().getStringExtra("price"));
                 Intent myIntent = new Intent(DetailActivity.this, DesignCardActivity.class);
+                myIntent.putExtra("id", getIntent().getStringExtra("id"));
+                myIntent.putExtra("url", getIntent().getStringExtra("url"));
+                myIntent.putExtra("price", getIntent().getStringExtra("price"));
+                myIntent.putExtra("name", getIntent().getStringExtra("name"));
                 startActivity(myIntent);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent myIntent = new Intent();
+        myIntent.putExtra("id", getIntent().getStringExtra("id"));
+        myIntent.putExtra("price", getIntent().getStringExtra("price"));
+        myIntent.putExtra("name", getIntent().getStringExtra("name"));
+        myIntent.putExtra("url", getIntent().getStringExtra("url"));
+        setResult(AppCompatActivity.RESULT_OK, myIntent);
+        super.onBackPressed();
+    }
 //    public void launchDesignCard(View view) {
 //        Log.d(LOG_TAG, "Button clicked!");
 //        Intent intent = new Intent(this, DesignCardActivity.class);
