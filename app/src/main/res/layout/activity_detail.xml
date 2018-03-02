@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="370dp"
                 android:autoSizeTextType="uniform"
-                android:src="@drawable/type1"
+
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
