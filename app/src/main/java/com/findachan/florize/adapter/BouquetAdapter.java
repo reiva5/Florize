@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.findachan.florize.DownloadImageTask;
@@ -47,6 +48,10 @@ public class BouquetAdapter extends RecyclerView.Adapter<BouquetAdapter.MyViewHo
         holder.title.setText(album.getName());
         holder.count.setText(util.toPrettyPrice(new Long(album.getPrice())));
         holder.id = album.getId();
+        holder.name = album.getName();
+        holder.url = album.getUrl();
+        holder.price = album.getPrice();
+
         System.err.println("> AJG: " + holder.id);
         // loading album cover using Glide library
         Glide.with(mContext).load(album.getUrl()).into(holder.thumbnail);
@@ -67,6 +72,9 @@ public class BouquetAdapter extends RecyclerView.Adapter<BouquetAdapter.MyViewHo
         private TextView title, count;
         private ImageView thumbnail, overflow;
         private String id;
+        private String name;
+        private String url;
+        private Integer price;
 
         public MyViewHolder(View view) {
             super(view);
@@ -78,8 +86,12 @@ public class BouquetAdapter extends RecyclerView.Adapter<BouquetAdapter.MyViewHo
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    System.out.println("Asoe kalian semua " + price);
                     Intent myIntent = new Intent(view.getContext(),DetailActivity.class);
                     myIntent.putExtra("id", id);
+                    myIntent.putExtra("name", name);
+                    myIntent.putExtra("url", url);
+                    myIntent.putExtra("price", String.valueOf(price));
                     view.getContext().startActivity(myIntent);
                 }
             });
