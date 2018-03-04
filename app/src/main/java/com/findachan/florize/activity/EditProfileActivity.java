@@ -129,6 +129,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         // Commit the changes
         edit.commit();
         Log.w(TAG,userProfile.getString("fullname",""));
-        startActivity(new Intent(this, ProfileActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

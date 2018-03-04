@@ -13,24 +13,24 @@
         android:theme="@style/AppTheme">
 
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
         <!--<activity-->
-            <!--android:name=".activity.HandBouquetActivity"-->
-            <!--android:label="Hand Bouquet Activity"-->
-            <!--android:parentActivityName=".activity.MainActivity">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value="com.findachan.florize.activity.MainActivity" />-->
+        <!--android:name=".activity.HandBouquetActivity"-->
+        <!--android:label="Hand Bouquet Activity"-->
+        <!--android:parentActivityName=".activity.MainActivity">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.PARENT_ACTIVITY"-->
+        <!--android:value="com.findachan.florize.activity.MainActivity" />-->
         <!--</activity>-->
         <!--<activity-->
-            <!--android:name=".activity.DetailActivity"-->
-            <!--android:label="Detail Activity"-->
-            <!--android:parentActivityName=".activity.HandBouquetActivity">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value="com.findachan.florize.activity.HandBouquetActivity" />-->
+        <!--android:name=".activity.DetailActivity"-->
+        <!--android:label="Detail Activity"-->
+        <!--android:parentActivityName=".activity.HandBouquetActivity">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.PARENT_ACTIVITY"-->
+        <!--android:value="com.findachan.florize.activity.HandBouquetActivity" />-->
         <!--</activity>-->
         <!--<activity android:name=".activity.DesignCardActivity"></activity>-->
         <activity android:name=".activity.LoginActivity">
