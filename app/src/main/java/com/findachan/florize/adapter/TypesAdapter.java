@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.findachan.florize.R;
-import com.findachan.florize.activity.RecommendItemActivity;
 import com.findachan.florize.models.Type;
 import com.findachan.florize.activity.HandBouquetActivity;
 
@@ -39,7 +38,7 @@ public class TypesAdapter extends RecyclerView.Adapter<TypesAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(TypesAdapter.ViewHolder holder, int position) {
         Type currentType = mTypesData.get(position);
-
+        holder.id = ((Integer) (position+1)).toString();
         holder.bindTo(currentType);
 
         Glide.with(mContext).load(currentType.getImageResource()).into(holder.mTypesImage);
@@ -55,6 +54,7 @@ public class TypesAdapter extends RecyclerView.Adapter<TypesAdapter.ViewHolder> 
         private TextView mTitleText;
         private TextView mInfoText;
         private ImageView mTypesImage;
+        private String id;
 
         ViewHolder(final View itemView) {
             super(itemView);
@@ -66,7 +66,9 @@ public class TypesAdapter extends RecyclerView.Adapter<TypesAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemView.getContext().startActivity(new Intent(itemView.getContext(),RecommendItemActivity.class));
+                    Intent intent = new Intent(itemView.getContext(),HandBouquetActivity.class);
+                    intent.putExtra("id", id);
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

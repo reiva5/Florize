@@ -38,13 +38,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:text="Full Name" />
+                    android:text="Arfinda Ilmania" />
                 <TextView
                     android:id="@+id/profile_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Email@email.com"/>
+                    android:text="findafn@gmail.com"/>
             </LinearLayout>
         </LinearLayout>
 

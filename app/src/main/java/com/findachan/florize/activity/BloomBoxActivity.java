@@ -1,9 +1,7 @@
 package com.findachan.florize.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -11,14 +9,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,10 +22,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.findachan.florize.GpsTracker;
 import com.findachan.florize.R;
 import com.findachan.florize.adapter.BouquetAdapter;
 import com.findachan.florize.models.Bouquet;
@@ -41,12 +33,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class HandBouquetActivity extends AppCompatActivity {
+public class BloomBoxActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BouquetAdapter adapter;
     private List<Bouquet> albumList;
@@ -55,26 +45,17 @@ public class HandBouquetActivity extends AppCompatActivity {
     private Activity activity;
 
     private SensorManager mSensorManager;
-    private Sensor lightSensor;
-    private Sensor temperatureSensor;
-
+    private Sensor sensor;
     TextView textLight;
-    private String category;
-    private Intent intent;
-    private float suhu = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hand_bouquet);
+        setContentView(R.layout.activity_bloom_box);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        intent = getIntent();
-        category = intent.getStringExtra("id");
-        System.out.print("> Anjing ga jelas: " + category);
 
         initCollapsingToolbar();
 
@@ -91,77 +72,22 @@ public class HandBouquetActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getInstance().getReference("item");
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        lightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        temperatureSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!category.equalsIgnoreCase("4") && !category.equalsIgnoreCase("5")) {
-                    for (DataSnapshot bq : dataSnapshot.getChildren()) {
-                        if (category.equalsIgnoreCase(bq.child("kategori")
-                                .getValue(Long.class).toString())) {
-                            albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
-                                    bq.child("kategori").getValue(Integer.class),
-                                    bq.child("harga").getValue(Integer.class),
-                                    bq.child("deskripsi").getValue(String.class),
-                                    bq.child("url").getValue(String.class),
-                                    bq.getKey())
-                            );
-                        }
-                    }
-                } else if (category.equalsIgnoreCase("4")){
-                    ActivityCompat.requestPermissions(HandBouquetActivity.this,
-                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
-                            123);
-                    GpsTracker gt = new GpsTracker(getApplicationContext());
-                    Location l = gt.getLocation();
-                    if (l == null) {
-                        Toast.makeText(getApplicationContext(),"GPS unable to get Value",Toast.LENGTH_SHORT).show();
-                    } else {
-                        double lat = l.getLatitude();
-                        double lon = l.getLongitude();
-                        Geocoder geocoder;
-                        List<Address> addresses;
-                        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                        try {
-                            addresses = geocoder.getFromLocation(lat, lon, 1);
-                            String location = "Bandung";
-                            Toast.makeText(getApplicationContext(),addresses.get(0).getSubAdminArea(),Toast.LENGTH_SHORT).show();
-                            for (DataSnapshot bq : dataSnapshot.getChildren()){
-                                if (addresses.get(0).getSubAdminArea().toLowerCase().contains(bq.child("lokasi").getValue(String.class).toLowerCase())) {
-                                    albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
-                                            bq.child("kategori").getValue(Integer.class),
-                                            bq.child("harga").getValue(Integer.class),
-                                            bq.child("deskripsi").getValue(String.class),
-                                            bq.child("url").getValue(String.class),
-                                            bq.getKey())
-                                    );
-                                }
-                            }
-                        } catch (IOException e) {
-                            Toast.makeText(getApplicationContext(),"GPS unable to get city",Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-                } else {
-                    for (DataSnapshot bq : dataSnapshot.getChildren()) {
-                        if (bq.child("suhuMin").getValue(float.class) <= suhu && suhu <= bq.child("suhuMax").getValue(float.class)) {
-                            albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
-                                    bq.child("kategori").getValue(Integer.class),
-                                    bq.child("harga").getValue(Integer.class),
-                                    bq.child("deskripsi").getValue(String.class),
-                                    bq.child("url").getValue(String.class),
-                                    bq.getKey())
-                            );
-                        }
-                    }
+                for (DataSnapshot bq : dataSnapshot.getChildren()){
+                    albumList.add(new Bouquet(bq.child("nama").getValue(String.class),
+                            bq.child("kategori").getValue(Integer.class),
+                            bq.child("harga").getValue(Integer.class),
+                            bq.child("deskripsi").getValue(String.class),
+                            bq.child("url").getValue(String.class),
+                            bq.getKey())
+                    );
+
                 }
                 adapter.notifyDataSetChanged();
                 try {
-                    Glide.with(getApplicationContext())
-                            .load(R.drawable.handbouquet)
-                            .into((ImageView) findViewById(R.id.backdrop));
+                    Glide.with(getApplicationContext()).load(R.drawable.bloombox).into((ImageView) findViewById(R.id.backdrop));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -173,41 +99,22 @@ public class HandBouquetActivity extends AppCompatActivity {
 
             }
         });
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
     }
 
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(lightListener, lightSensor,
+        mSensorManager.registerListener(lightListener, sensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
-        temperatureSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        if (temperatureSensor != null) {
-            mSensorManager.registerListener(temperatureListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
-        } else {
-            Toast.makeText(this, "No Ambient Temperature Sensor !", Toast.LENGTH_LONG).show();
-        }
     }
 
     public void onStop() {
         super.onStop();
         mSensorManager.unregisterListener(lightListener);
-        mSensorManager.unregisterListener(temperatureListener);
     }
-
-
-    public SensorEventListener temperatureListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            Log.i("Kondisi suhu sekarang", "Suhu: " + event.values[0]);
-            suhu = event.values[0];
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            if(sensor.getType() == Sensor.TYPE_TEMPERATURE){
-                Log.i("Temperature changed", "Accuracy: " + accuracy);
-            }
-        }
-    };
 
     public SensorEventListener lightListener = new SensorEventListener() {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -217,7 +124,7 @@ public class HandBouquetActivity extends AppCompatActivity {
         }
 
         public void onSensorChanged(SensorEvent event) {
-//            if( event.lightSensor.getType() == Sensor.TYPE_LIGHT){
+//            if( event.sensor.getType() == Sensor.TYPE_LIGHT){
 //                Log.i("Sensor Changed", "onSensor Change :" + event.values[0]);
 //            }
 

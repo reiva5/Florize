@@ -33,7 +33,7 @@
         <!--android:value="com.findachan.florize.activity.HandBouquetActivity" />-->
         <!--</activity>-->
         <!--<activity android:name=".activity.DesignCardActivity"></activity>-->
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,20 +42,34 @@
         </activity>
 
         <activity
-            android:name=".activity.RecommendItemActivity"
+            android:name=".activity.MainActivity"
+            android:label="Hand Bouquet List"
+            android:parentActivityName=".activity.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.findachan.florize.activity.LoginActivity" />
+        </activity>
+
+        <activity android:name=".activity.EditProfileActivity" />
+
+
+        <activity
+            android:name=".activity.HandBouquetActivity"
             android:label="Hand Bouquet List"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.findachan.florize.activity.MainActivity" />
         </activity>
+
+
         <activity
             android:name=".activity.DetailActivity"
             android:label="Detail Product"
-            android:parentActivityName=".activity.RecommendItemActivity">
+            android:parentActivityName=".activity.HandBouquetActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.findachan.florize.activity.RecommendItemActivity" />
+                android:value="com.findachan.florize.activity.HandBouquetActivity" />
         </activity>
         <activity
             android:name=".activity.DesignCardActivity"
@@ -66,7 +80,7 @@
                 android:value="com.findachan.florize.activity.DetailActivity" />
         </activity>
         <activity
-            android:name=".activity.AndroidLoadImageFromURLActivity"
+            android:name=".activity.PaymentActivity"
             android:label="Pembayaran"
             android:parentActivityName=".activity.DesignCardActivity">
             <meta-data

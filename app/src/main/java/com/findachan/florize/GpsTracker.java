@@ -11,7 +11,7 @@ import android.util.Log;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
- * Created by shiva on 8/4/17.
+ * Created by reiva5 on 2/3/17.
  */
 
 public class GpsTracker implements LocationListener {
